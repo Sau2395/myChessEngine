@@ -7,7 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MyChessEngineApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MyChessEngineApplication.class, args);
+
+        //SpringApplication.run(MyChessEngineApplication.class, args);
+        Game g = new Game();
+        g.getBoard().display();
+
+        System.out.println("Possible Valid Moves : " + g.getBoard().getValidMovesCount());
     }
 
 }
