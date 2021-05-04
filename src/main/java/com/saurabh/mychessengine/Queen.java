@@ -8,8 +8,8 @@ public class Queen extends Piece {
     public Queen(boolean isBlack) {
         super(isBlack);
         this.value = 9;
-        if (isBlack) this.name  = "BQ";
-        else this.name = "WQ";
+        if (isBlack) this.name  = "q";
+        else this.name = "Q";
     }
 
     @Override

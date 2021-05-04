@@ -8,8 +8,8 @@ public class Bishop extends Piece {
     public Bishop(boolean isBlack) {
         super(isBlack);
         this.value = 3;
-        if (isBlack) this.name  = "BB";
-        else this.name = "WB";
+        if (isBlack) this.name  = "b";
+        else this.name = "B";
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path="/Chess")
 public class GameController {
 
+    /*
     @GetMapping(path="/Game")
     public String showGame() {
         return new Game().displayCurrentStatus();
@@ -17,4 +18,5 @@ public class GameController {
     public Board showBoard() {
         return new Game().getBoard();
     }
+     */
 }

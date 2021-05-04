@@ -8,8 +8,8 @@ public class King extends Piece {
     public King(boolean isBlack) {
         super(isBlack);
         this.value = 100;
-        if (isBlack) this.name  = "BA";
-        else this.name = "WA";
+        if (isBlack) this.name  = "k";
+        else this.name = "K";
     }
 
     @Override
@@ -23,50 +23,50 @@ public class King extends Piece {
         Square possibleLocation;
 
         //Check left
-        if(currentPosition.getX() != 0) {
-            possibleLocation = board.getSquares()[currentPosition.getX() - 1][currentPosition.getY()];
+        if(currentPosition.getColumn() != 0) {
+            possibleLocation = board.getSquares()[currentPosition.getRow()][currentPosition.getColumn() - 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Right
-        if(currentPosition.getX() != 7) {
-            possibleLocation = board.getSquares()[currentPosition.getX() + 1][currentPosition.getY()];
+        if(currentPosition.getColumn() != 7) {
+            possibleLocation = board.getSquares()[currentPosition.getRow()][currentPosition.getColumn() + 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Up
-        if(currentPosition.getY() != 0) {
-            possibleLocation = board.getSquares()[currentPosition.getX()][currentPosition.getY() - 1];
+        if(currentPosition.getRow() != 0) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() - 1][currentPosition.getColumn()];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Down
-        if(currentPosition.getY() != 7) {
-            possibleLocation = board.getSquares()[currentPosition.getX()][currentPosition.getY() + 1];
+        if(currentPosition.getRow() != 7) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() + 1][currentPosition.getColumn()];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Up-Left
-        if(currentPosition.getX() != 0 && currentPosition.getY() != 0) {
-            possibleLocation = board.getSquares()[currentPosition.getX() - 1][currentPosition.getY() - 1];
+        if(currentPosition.getRow() != 0 && currentPosition.getColumn() != 0) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() - 1][currentPosition.getColumn() - 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Up-Right
-        if(currentPosition.getX() != 7 && currentPosition.getY() != 0) {
-            possibleLocation = board.getSquares()[currentPosition.getX() + 1][currentPosition.getY() - 1];
+        if(currentPosition.getRow() != 0 && currentPosition.getColumn() != 7) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() - 1][currentPosition.getColumn() + 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Down-Left
-        if(currentPosition.getX() != 0 && currentPosition.getY() != 7) {
-            possibleLocation = board.getSquares()[currentPosition.getX() - 1][currentPosition.getY() + 1];
+        if(currentPosition.getRow() != 7 && currentPosition.getColumn() != 0) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() + 1][currentPosition.getColumn() - 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Down-Right
-        if(currentPosition.getX() != 7 && currentPosition.getY() != 7) {
-            possibleLocation = board.getSquares()[currentPosition.getX() + 1][currentPosition.getY() + 1];
+        if(currentPosition.getRow() != 7 && currentPosition.getColumn() != 7) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() + 1][currentPosition.getColumn() + 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 

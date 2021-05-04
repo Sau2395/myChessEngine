@@ -8,8 +8,8 @@ public class Rook extends Piece {
     public Rook(boolean isBlack) {
         super(isBlack);
         this.value = 5;
-        if (isBlack) this.name  = "BR";
-        else this.name = "WR";
+        if (isBlack) this.name  = "r";
+        else this.name = "R";
     }
 
     @Override

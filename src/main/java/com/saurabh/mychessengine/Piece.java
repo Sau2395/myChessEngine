@@ -5,13 +5,13 @@ import java.util.List;
 public abstract class Piece {
 
     protected int value;
-    private boolean isBlack;
+    private boolean black;
     private boolean isKilled;
     private boolean unMoved;
     protected String name;
 
     public Piece(boolean isBlack) {
-        this.isBlack = isBlack;
+        this.black = isBlack;
         this.isKilled = false;
         this.unMoved = true;
     }
@@ -29,11 +29,11 @@ public abstract class Piece {
     }
 
     public boolean isBlack() {
-        return isBlack;
+        return black;
     }
 
     public void setBlack(boolean black) {
-        isBlack = black;
+        this.black = black;
     }
 
     public boolean isKilled() {
@@ -49,29 +49,31 @@ public abstract class Piece {
     public abstract List<Move> validMoves(Board board, Square currentPosition);
 
     protected boolean isCapturingMove(Square currentPosition, List<Move> moves, Square possibleLocation) {
+        //System.out.println("Considering: X :" + possibleLocation.getRow() + "\tY: " + possibleLocation.getColumn());
         if(possibleLocation.isOccupied()) {
+            //System.out.println("Occupied : " + possibleLocation.getPiece().name);
             if(possibleLocation.getPiece().isBlack() != isBlack()) {
-                System.out.println("Added: " + currentPosition.getPiece().name + "\tCap: " + possibleLocation.getPiece().name);
-                moves.add(new Move(currentPosition, possibleLocation, this, possibleLocation.getPiece()));
+                //System.out.println("Added: " + possibleLocation.getRow() + "\tY:" + possibleLocation.getColumn());
+                moves.add(new Move(currentPosition, possibleLocation, currentPosition.getPiece(), possibleLocation.getPiece()));
             }
             return true;
         }
         else {
-            System.out.println("Added: " + currentPosition.getX() + "\tY:" + currentPosition.getY());
-            moves.add(new Move(currentPosition, possibleLocation, this, null));
+            //System.out.println("Added: " + possibleLocation.getRow() + "\tY:" + possibleLocation.getColumn());
+            moves.add(new Move(currentPosition, possibleLocation, currentPosition.getPiece(), null));
         }
         return false;
     }
 
-    private boolean getValidXMoves(Board board, Square currentPosition, List<Move> moves, int x) {
+    private boolean getValidRowMoves(Board board, Square currentPosition, List<Move> moves, int x) {
         Square possibleLocation;
-        possibleLocation = board.getSquares()[x][currentPosition.getY()];
+        possibleLocation = board.getSquares()[x][currentPosition.getColumn()];
         return isCapturingMove(currentPosition, moves, possibleLocation);
     }
 
-    private boolean getValidYMoves(Board board, Square currentPosition, List<Move> moves, int y) {
+    private boolean getValidColumnMoves(Board board, Square currentPosition, List<Move> moves, int y) {
         Square possibleLocation;
-        possibleLocation = board.getSquares()[currentPosition.getX()][y];
+        possibleLocation = board.getSquares()[currentPosition.getRow()][y];
         return isCapturingMove(currentPosition, moves, possibleLocation);
     }
 
@@ -83,61 +85,55 @@ public abstract class Piece {
 
     protected void getValidLeftRightMoves(Board board, Square currentPosition, List<Move> moves) {
         //Checking left.
-        for(int i = currentPosition.getX(); i >= 0; i--) {
-            if (getValidXMoves(board, currentPosition, moves, i)) break;
+        for(int i = currentPosition.getColumn() - 1; i >= 0; i--) {
+            if (getValidColumnMoves(board, currentPosition, moves, i)) break;
         }
 
         //Checking right.
-        for(int i = currentPosition.getX(); i < 8; i++) {
-            if (getValidXMoves(board, currentPosition, moves, i)) break;
+        for(int i = currentPosition.getColumn() + 1; i < board.getColumn(); i++) {
+            if (getValidColumnMoves(board, currentPosition, moves, i)) break;
         }
     }
 
     protected void getValidUpDownMoves(Board board, Square currentPosition, List<Move> moves) {
         //Checking up.
-        for(int i = currentPosition.getY(); i >= 0; i--) {
-            if (getValidYMoves(board, currentPosition, moves, i)) break;
+        for(int i = currentPosition.getRow() - 1; i >= 0; i--) {
+            if (getValidRowMoves(board, currentPosition, moves, i)) break;
         }
 
         //Checking down.
-        for(int i = currentPosition.getY(); i < 8; i++) {
-            if (getValidYMoves(board, currentPosition, moves, i)) break;
+        for(int i = currentPosition.getRow() + 1; i < board.getRow(); i++) {
+            if (getValidRowMoves(board, currentPosition, moves, i)) break;
         }
     }
 
     protected void getValidAcrossMoves(Board board, Square currentPosition, List<Move> moves) {
         //Checking up-left.
-        outer:
-        for(int i = currentPosition.getX(); i >= 0; i--) {
-            for(int j = currentPosition.getY(); j >= 0; j--) {
-                if (getValidXYMoves(board, currentPosition, moves, i, j)) {
-                    break outer;
-                }
-            }
+        for(int i = currentPosition.getRow() - 1, j = currentPosition.getColumn() - 1;
+            i >= 0 && j >= 0;
+            j--, i--) {
+            if (getValidXYMoves(board, currentPosition, moves, i, j)) break;
         }
 
         //Checking up-right.
-        outer:
-        for(int i = currentPosition.getX(); i >= 0; i--) {
-            for(int j = currentPosition.getY(); j < 8; j++) {
-                if (getValidXYMoves(board, currentPosition, moves, i, j)) break outer;
-            }
+        for(int i = currentPosition.getRow() - 1, j = currentPosition.getColumn() + 1;
+            i >= 0 && j < board.getColumn();
+            j++, i--) {
+            if (getValidXYMoves(board, currentPosition, moves, i, j)) break;
         }
 
         //Checking down-left.
-        outer:
-        for(int i = currentPosition.getX(); i < 8; i++) {
-            for(int j = currentPosition.getY(); j >= 0; j--) {
-                if (getValidXYMoves(board, currentPosition, moves, i, j)) break outer;
-            }
+        for(int i = currentPosition.getRow() + 1, j = currentPosition.getColumn() - 1;
+            i < board.getRow() && j >= 0;
+            j--, i++) {
+            if (getValidXYMoves(board, currentPosition, moves, i, j)) break;
         }
 
         //Checking up-left.
-        outer:
-        for(int i = currentPosition.getX(); i < 8; i++) {
-            for(int j = currentPosition.getY(); j < 8; j++) {
-                if (getValidXYMoves(board, currentPosition, moves, i, j)) break outer;
-            }
+        for(int i = currentPosition.getRow() + 1, j = currentPosition.getColumn() + 1;
+            i < board.getRow() && j < board.getColumn();
+            j++, i++) {
+            if (getValidXYMoves(board, currentPosition, moves, i, j)) break;
         }
     }
 }

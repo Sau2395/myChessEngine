@@ -8,8 +8,8 @@ public class Knight extends Piece {
     public Knight(boolean isBlack) {
         super(isBlack);
         this.value = 3;
-        if (isBlack) this.name  = "BK";
-        else this.name = "WK";
+        if (isBlack) this.name  = "n";
+        else this.name = "N";
     }
 
     @Override
@@ -23,50 +23,50 @@ public class Knight extends Piece {
         Square possibleLocation;
 
         //Check left - up
-        if(currentPosition.getY() >= 2 && currentPosition.getX() >= 1) {
-            possibleLocation = board.getSquares()[currentPosition.getX() - 1][currentPosition.getY() - 2];
+        if(currentPosition.getColumn() >= 2 && currentPosition.getRow() >= 1) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() - 1][currentPosition.getColumn() - 2];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check left - down
-        if(currentPosition.getY() >= 2 && currentPosition.getX() <= 6) {
-            possibleLocation = board.getSquares()[currentPosition.getX() + 1][currentPosition.getY() - 2];
+        if(currentPosition.getColumn() >= 2 && currentPosition.getRow() <= 6) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() + 1][currentPosition.getColumn() - 2];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Right - down
-        if(currentPosition.getY() <= 5 && currentPosition.getX() <= 6) {
-            possibleLocation = board.getSquares()[currentPosition.getX() + 1][currentPosition.getY() + 2];
+        if(currentPosition.getColumn() <= 5 && currentPosition.getRow() <= 6) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() + 1][currentPosition.getColumn() + 2];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Right - up
-        if(currentPosition.getY() <= 5 && currentPosition.getX() >= 1) {
-            possibleLocation = board.getSquares()[currentPosition.getX() - 1][currentPosition.getY() + 2];
+        if(currentPosition.getColumn() <= 5 && currentPosition.getRow() >= 1) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() - 1][currentPosition.getColumn() + 2];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Up - Left
-        if(currentPosition.getY() >= 1 && currentPosition.getX() >= 2) {
-            possibleLocation = board.getSquares()[currentPosition.getX() - 2][currentPosition.getY() - 1];
+        if(currentPosition.getColumn() >= 1 && currentPosition.getRow() >= 2) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() - 2][currentPosition.getColumn() - 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Up - Right
-        if(currentPosition.getY() <= 6 && currentPosition.getX() >= 2) {
-            possibleLocation = board.getSquares()[currentPosition.getX() - 2][currentPosition.getY() + 1];
+        if(currentPosition.getColumn() <= 6 && currentPosition.getRow() >= 2) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() - 2][currentPosition.getColumn() + 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Down - Left
-        if(currentPosition.getY() >= 1 && currentPosition.getX() <= 5) {
-            possibleLocation = board.getSquares()[currentPosition.getX() + 2][currentPosition.getY() - 1];
+        if(currentPosition.getColumn() >= 1 && currentPosition.getRow() <= 5) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() + 2][currentPosition.getColumn() - 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 
         //Check Down - Right
-        if(currentPosition.getY() <= 6 && currentPosition.getX() <= 5) {
-            possibleLocation = board.getSquares()[currentPosition.getX() + 2][currentPosition.getY() + 1];
+        if(currentPosition.getColumn() <= 6 && currentPosition.getRow() <= 5) {
+            possibleLocation = board.getSquares()[currentPosition.getRow() + 2][currentPosition.getColumn() + 1];
             isCapturingMove(currentPosition,moves,possibleLocation);
         }
 

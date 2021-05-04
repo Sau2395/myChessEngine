@@ -2,9 +2,29 @@ package com.saurabh.mychessengine;
 
 public class Board {
     private Square[][] squares;
+    private int row;
+    private int column;
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
 
     Board() {
-        squares = new Square[8][8];
+        this.row = 8;
+        this.column = 8;
+        squares = new Square[row][column];
     }
 
     private void setInitialRKBQ(int i, boolean isBlack) {
@@ -25,6 +45,57 @@ public class Board {
 
     public Square[][] getSquares() {
         return squares;
+    }
+
+    public void setBoard(String fen) {
+        int i = 0;
+        for (String s:fen.split("/")) {
+            int j = 0;
+            //System.out.println("S: " + s);
+            for (char c:s.toCharArray()) {
+                if(Character.isDigit(c)) {
+                    for(int k = 0; k < Character.getNumericValue(c); k++,j++) {
+                        //System.out.println("i : " + i + "\t j : "+j +"\t k :"+k);
+                        squares[i][j] = new Square(i, j, null);
+                    }
+                }
+                else {
+                    switch(c) {
+                        case 'p' :
+                            squares[i][j] = new Square(i, j++ , new Pawn(true));
+                            if(i >= 2) { squares[i][j-1].getPiece().moved(); }
+                            break;
+                        case 'P' :
+                            squares[i][j] = new Square(i, j++ , new Pawn(false));
+                            if(i <= 5) { squares[i][j-1].getPiece().moved(); }
+                            break;
+                        case 'r' :
+                            squares[i][j] = new Square(i, j++ , new Rook(true)); break;
+                        case 'R' :
+                            squares[i][j] = new Square(i, j++ , new Rook(false)); break;
+                        case 'n' :
+                            squares[i][j] = new Square(i, j++ , new Knight(true)); break;
+                        case 'N' :
+                            squares[i][j] = new Square(i, j++ , new Knight(false)); break;
+                        case 'b' :
+                            squares[i][j] = new Square(i, j++ , new Bishop(true)); break;
+                        case 'B' :
+                            squares[i][j] = new Square(i, j++ , new Bishop(false)); break;
+                        case 'q' :
+                            squares[i][j] = new Square(i, j++ , new Queen(true)); break;
+                        case 'Q' :
+                            squares[i][j] = new Square(i, j++ , new Queen(false)); break;
+                        case 'k' :
+                            squares[i][j] = new Square(i, j++ , new King(true)); break;
+                        case 'K' :
+                            squares[i][j] = new Square(i, j++ , new King(false)); break;
+                        default:
+                            throw new IllegalArgumentException("Unable to find chess piece with notation : " + c);
+                    }
+                }
+            }
+            i++;
+        }
     }
 
     public void reset() {
@@ -69,9 +140,13 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if(squares[i][j].isOccupied()) {
+                    //System.out.println("-------------------------------------------------------------");
+                    //System.out.println("Piece : " + squares[i][j].getPiece().name + " \n Current Position : Row : " +squares[i][j].getRow() +
+                    //        " Y: " + squares[i][j].getColumn() +"   Calculating..... ");
                     long x = squares[i][j].getPiece().validMoves(this,squares[i][j]).size();
                     count += x;
-                    System.out.println("Piece : " + squares[i][j].getPiece().name + " \t Moves: " + x);
+                    //System.out.println("Piece : " + squares[i][j].getPiece().name + " \t Moves: " + x);
+                    //System.out.println("-------------------------------------------------------------");
                 }
             }
         }

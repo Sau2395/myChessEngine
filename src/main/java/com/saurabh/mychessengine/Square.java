@@ -2,22 +2,22 @@ package com.saurabh.mychessengine;
 
 public class Square {
 
-    private int x;
-    private int y;
+    private final int row;
+    private final int column;
     private Piece piece;
 
-    Square(int x, int y, Piece piece) {
-        this.x = x;
-        this.y = y;
+    Square(int row, int column, Piece piece) {
+        this.row = row;
+        this.column = column;
         this.piece = piece;
     }
 
-    public int getX() {
-        return x;
+    public int getRow() {
+        return row;
     }
 
-    public int getY() {
-        return y;
+    public int getColumn() {
+        return column;
     }
 
     public Piece getPiece() {
@@ -29,7 +29,7 @@ public class Square {
             return piece.name;
         }
         else {
-            return "--";
+            return "-";
         }
     }
 
