@@ -1,5 +1,7 @@
 package com.saurabh.mychessengine;
 
+import com.saurabh.mychessengine.pieces.Piece;
+
 public class Move {
 
     private Square start;

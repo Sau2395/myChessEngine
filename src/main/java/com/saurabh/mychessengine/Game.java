@@ -2,10 +2,13 @@ package com.saurabh.mychessengine;
 
 import org.apache.tomcat.util.http.fileupload.impl.InvalidContentTypeException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Game {
 
+    final List<Move> history;
     private Board board;
     private Player[] players;
     private GameStatus status;
@@ -29,6 +32,16 @@ public class Game {
         this.board.reset();
         this.playedMoves = 0;
         this.halfMoves = 0;
+        this.status = GameStatus.ACTIVE;
+        this.history = new ArrayList<>();
+    }
+
+    public void addMoveToHistory(Move move) {
+        this.history.add(move);
+    }
+
+    public void removeLastMoveFromHistory() {
+        this.history.remove(this.history.size() - 1);
     }
 
     public String displayCurrentStatus() {
@@ -92,8 +105,7 @@ public class Game {
                 .orElseThrow(() -> new IllegalArgumentException("No player found with color : " + sections[1]));
 
         //TODO : Getting Castling Status. sections[2]
-        if(sections[2].contains("-")) setCastlingAvailable(false);
-        else setCastlingAvailable(true);
+        setCastlingAvailable(!sections[2].contains("-"));
 
         //TODO : Setting en-passant value. sections[3]
         setEn_passant(sections[3]);

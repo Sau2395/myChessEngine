@@ -1,9 +1,12 @@
 package com.saurabh.mychessengine;
 
+import com.saurabh.mychessengine.pieces.*;
+
 public class Board {
     private Square[][] squares;
     private int row;
     private int column;
+    private int totalScore = 139;
 
     public int getRow() {
         return row;
@@ -106,8 +109,8 @@ public class Board {
         squares[0][4] = new Square(0, 4 , new King(false));
 
         //Adding Empty Spaces
-        for(int i = 2; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
+        for(int i = 2; i < row; i++) {
+            for(int j = 0; j < column; j++) {
                 squares[i][j] = new Square(0, 4 , null);
             }
         }
@@ -122,8 +125,8 @@ public class Board {
     public String display() {
         StringBuilder board = new StringBuilder();
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
                 System.out.print(squares[i][j].display() + "\t");
                 board.append(squares[i][j].display()).append("\t");
             }
@@ -134,23 +137,39 @@ public class Board {
         return board.toString();
     }
 
-    public long getValidMovesCount() {
+    public long getValidMovesCount(boolean isBlack) {
         long count = 0;
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
                 if(squares[i][j].isOccupied()) {
-                    //System.out.println("-------------------------------------------------------------");
-                    //System.out.println("Piece : " + squares[i][j].getPiece().name + " \n Current Position : Row : " +squares[i][j].getRow() +
-                    //        " Y: " + squares[i][j].getColumn() +"   Calculating..... ");
-                    long x = squares[i][j].getPiece().validMoves(this,squares[i][j]).size();
-                    count += x;
-                    //System.out.println("Piece : " + squares[i][j].getPiece().name + " \t Moves: " + x);
-                    //System.out.println("-------------------------------------------------------------");
+                    Piece piece = squares[i][j].getPiece();
+                    if(piece.isBlack() == isBlack) {
+                        long x = piece.validMoves(this, squares[i][j]).size();
+                        count += x;
+                        //System.out.println("Piece : " + piece.getName() + " \t Moves: " + x);
+                    }
                 }
             }
         }
 
         return count;
+    }
+
+    public int getScore(boolean isBlack) {
+        int score = 0;
+
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < column; j++) {
+                if(squares[i][j].isOccupied()) {
+                    Piece piece = squares[i][j].getPiece();
+                    if(piece.isBlack() != isBlack) {
+                        score += piece.getValue();
+                    }
+                }
+            }
+        }
+
+        return totalScore - score;
     }
 }

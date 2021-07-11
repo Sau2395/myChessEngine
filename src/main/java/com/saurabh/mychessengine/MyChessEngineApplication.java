@@ -13,7 +13,7 @@ public class MyChessEngineApplication {
         Player Two = new Player("b");
 
         Game g = new Game(One, Two);
-        g.setGame("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
+        g.setGame("8/pp3P2/1P6/1P1R4/K1p1kN2/1P5q/1p2rn1b/8 b - - 0 1");
         g.getBoard().display();
 
         System.out.println("Castling Available  : "+ g.isCastlingAvailable());
@@ -21,7 +21,10 @@ public class MyChessEngineApplication {
         System.out.println("Half Moves : "+ g.getHalfMoves() + " played so far..");
         System.out.println("Total Moves : "+ g.getPlayedMoves() + " played so far..");
         System.out.println("Player : "+ g.getCurrentTurn().getColor() + " plays next..");
-        System.out.println("Possible Valid Moves : " + g.getBoard().getValidMovesCount());
+        System.out.println("Possible Valid Moves : " + g.getBoard().getValidMovesCount(true));
+        System.out.println("Black Score : " + g.getBoard().getScore(true));
+        System.out.println("White Score : " + g.getBoard().getScore(false));
+
     }
 
 }

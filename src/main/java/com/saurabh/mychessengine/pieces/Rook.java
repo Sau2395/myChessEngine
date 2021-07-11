@@ -1,4 +1,8 @@
-package com.saurabh.mychessengine;
+package com.saurabh.mychessengine.pieces;
+
+import com.saurabh.mychessengine.Board;
+import com.saurabh.mychessengine.Move;
+import com.saurabh.mychessengine.Square;
 
 import java.util.ArrayList;
 import java.util.List;

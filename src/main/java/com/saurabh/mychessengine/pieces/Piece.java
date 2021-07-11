@@ -1,4 +1,8 @@
-package com.saurabh.mychessengine;
+package com.saurabh.mychessengine.pieces;
+
+import com.saurabh.mychessengine.Board;
+import com.saurabh.mychessengine.Move;
+import com.saurabh.mychessengine.Square;
 
 import java.util.List;
 
@@ -14,6 +18,14 @@ public abstract class Piece {
         this.black = isBlack;
         this.isKilled = false;
         this.unMoved = true;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isUnMoved() {

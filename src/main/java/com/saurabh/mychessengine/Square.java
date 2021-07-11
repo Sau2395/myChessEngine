@@ -1,5 +1,7 @@
 package com.saurabh.mychessengine;
 
+import com.saurabh.mychessengine.pieces.Piece;
+
 public class Square {
 
     private final int row;
@@ -26,7 +28,7 @@ public class Square {
 
     public String display() {
         if (piece != null) {
-            return piece.name;
+            return piece.getName();
         }
         else {
             return "-";
@@ -36,6 +38,7 @@ public class Square {
     public boolean isOccupied() {
         return piece != null;
     }
+
     public void setPiece(Piece piece) {
         this.piece = piece;
     }
