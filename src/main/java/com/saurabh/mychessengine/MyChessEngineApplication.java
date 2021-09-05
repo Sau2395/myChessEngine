@@ -9,8 +9,8 @@ public class MyChessEngineApplication {
     public static void main(String[] args) {
 
         //SpringApplication.run(MyChessEngineApplication.class, args);
-        Player One  = new Player("w");
-        Player Two = new Player("b");
+        Player One  = new Player(false);
+        Player Two = new Player(true);
 
         Game g = new Game(One, Two);
         g.setGame("8/pp3P2/1P6/1P1R4/K1p1kN2/1P5q/1p2rn1b/8 b - - 0 1");
@@ -24,7 +24,9 @@ public class MyChessEngineApplication {
         System.out.println("Possible Valid Moves : " + g.getBoard().getValidMovesCount(true));
         System.out.println("Black Score : " + g.getBoard().getScore(true));
         System.out.println("White Score : " + g.getBoard().getScore(false));
+        //System.out.println("Next Player Move : " + g.getBoard().getNextMove(true).toString());
 
+        g.play();
     }
 
 }

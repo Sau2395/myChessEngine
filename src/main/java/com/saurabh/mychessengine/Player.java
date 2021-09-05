@@ -3,16 +3,21 @@ package com.saurabh.mychessengine;
 public class Player {
 
     private String color;
+    public boolean isBlack;
 
-    Player(String color) {
-        this.color = color;
+    Player(boolean isBlack) {
+        this.isBlack = isBlack;
     }
 
     public String getColor() {
-        return color;
+        return isBlack ? "b":"w";
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public Move play(Board board) {
+        Move move = board.getNextMove(isBlack);
+        board.makeMove(move);
+        return move;
     }
+
+
 }

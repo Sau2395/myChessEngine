@@ -42,4 +42,12 @@ public class Square {
     public void setPiece(Piece piece) {
         this.piece = piece;
     }
+
+    public String getPositionValue() {
+        return "" + getRowEquivalent(this.getRow()) + (this.getColumn() + 1);
+    }
+
+    private static char getRowEquivalent(int row) {
+        return (char) ('A' + row);
+    }
 }

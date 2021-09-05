@@ -2,11 +2,16 @@ package com.saurabh.mychessengine;
 
 import com.saurabh.mychessengine.pieces.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+
 public class Board {
     private Square[][] squares;
     private int row;
     private int column;
     private int totalScore = 139;
+    private PriorityQueue<Move> moves;
 
     public int getRow() {
         return row;
@@ -28,6 +33,7 @@ public class Board {
         this.row = 8;
         this.column = 8;
         squares = new Square[row][column];
+        moves = new PriorityQueue<>((a,b) -> (a.getValue() - b.getValue()) * -1);
     }
 
     private void setInitialRKBQ(int i, boolean isBlack) {
@@ -125,10 +131,26 @@ public class Board {
     public String display() {
         StringBuilder board = new StringBuilder();
 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < column; j++) {
-                System.out.print(squares[i][j].display() + "\t");
-                board.append(squares[i][j].display()).append("\t");
+        for (int i = 0; i <= row; i++) {
+            for (int j = -1; j < column; j++) {
+                if (i == row) {
+                    if(j == -1) {
+                        System.out.print("\t");
+                        board.append("\t");
+                    }
+                    else {
+                        System.out.print(j+1 + "\t");
+                        board.append(j+1).append("\t");
+                    }
+                }
+                else if(j == -1) {
+                    System.out.print("" + (char)('A' + i) + "\t");
+                    board.append("" + (char)('A' + i)).append("\t");
+                }
+                else {
+                    System.out.print(squares[i][j].display() + "\t");
+                    board.append(squares[i][j].display()).append("\t");
+                }
             }
             System.out.println();
             board.append("\n");
@@ -138,22 +160,28 @@ public class Board {
     }
 
     public long getValidMovesCount(boolean isBlack) {
-        long count = 0;
+        generateValidMoves(isBlack);
+        return moves.size();
+    }
 
+    private void generateValidMoves(boolean isBlack) {
+        moves.clear();
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 if(squares[i][j].isOccupied()) {
                     Piece piece = squares[i][j].getPiece();
                     if(piece.isBlack() == isBlack) {
-                        long x = piece.validMoves(this, squares[i][j]).size();
-                        count += x;
+                        moves.addAll(piece.validMoves(this, squares[i][j]));
                         //System.out.println("Piece : " + piece.getName() + " \t Moves: " + x);
                     }
                 }
             }
         }
+    }
 
-        return count;
+    public Move getNextMove(boolean isBlack) {
+        generateValidMoves(isBlack);
+        return moves.peek();
     }
 
     public int getScore(boolean isBlack) {
@@ -171,5 +199,9 @@ public class Board {
         }
 
         return totalScore - score;
+    }
+
+    public void makeMove(Move move) {
+        squares[move.getStop().getRow()][move.getStop().getColumn()].setPiece(move.getPieceToBeMoved());
     }
 }

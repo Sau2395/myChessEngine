@@ -62,8 +62,13 @@ public class Game {
         return currentTurn;
     }
 
-    public void setCurrentTurn(Player currentTurn) {
-        this.currentTurn = currentTurn;
+    public void setTurn() {
+        if(currentTurn == players[0]) {
+            currentTurn = players[1];
+        }
+        else {
+            currentTurn = players[0];
+        }
     }
 
     public int getPlayedMoves() {
@@ -115,5 +120,21 @@ public class Game {
 
         //Setting Played Moves.
         setPlayedMoves(Integer.parseInt(sections[5]));
+    }
+
+    public void play() {
+        while(this.status.equals(GameStatus.ACTIVE)) {
+            Move move = getCurrentTurn().play(board);
+            this.history.add(move);
+            System.out.println(getCurrentTurn().getColor() + " plays : " + move.toString());
+            if(getCurrentTurn().isBlack && move.getCapturedPiece().getName().equals("K")) {
+                this.status = GameStatus.BLACK_WINS;
+            }
+            else if(!getCurrentTurn().isBlack && move.getCapturedPiece().getName().equals("k")) {
+                this.status = GameStatus.WHITE_WINS;
+            }
+            setTurn();
+        }
+        System.out.println("Game ended with status : " + this.status);
     }
 }
